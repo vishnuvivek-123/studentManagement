@@ -1,31 +1,23 @@
 import Sequelize, { DataTypes } from 'sequelize';
 import sequelize from '../config/sequelize-config.js';
 
-const Attendance = sequelize.define('attendance', {
+const User = sequelize.define('user', {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
     defaultValue: Sequelize.UUIDV4,
   },
-  is_present: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-  },
-  user_id: {
-    type: DataTypes.UUID,
-    allowNull: false,
-  },
-  type: {
-    type: DataTypes.UUID,
-    allowNull: false,
-  },
-  schedule: {
-    type: DataTypes.UUID,
-    allowNull: false,
-  },
-  remark: {
+  full_name: {
     type: DataTypes.TEXT,
-    allowNull: true,
+    allowNull: false,
+  },
+  contact_number: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  user_role: {
+    type: DataTypes.TEXT,
+    allowNull: false,
   },
 }, {
   timestamps: true,
@@ -33,10 +25,10 @@ const Attendance = sequelize.define('attendance', {
   updatedAt: 'updated_at',
 });
 
-Attendance.associate = (models) => {
-  Attendance.belongsTo(models.user, {
+User.associate = (models) => {
+  User.hasMany(models.attendance, {
     foreignKey: 'user_id',
   });
 };
 
-export default Attendance;
+export default User;
