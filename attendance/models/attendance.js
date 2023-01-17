@@ -1,17 +1,17 @@
 import Sequelize, { DataTypes } from 'sequelize';
 import sequelize from '../config/sequelize-config.js';
 
-const Attendance = sequelize.define('attendance', {
+const Attendance = sequelize.define('Attendance', {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
     defaultValue: Sequelize.UUIDV4,
   },
-  is_present: {
+  isPresent: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   },
-  user_id: {
+  user: {
     type: DataTypes.UUID,
     allowNull: false,
   },
@@ -27,15 +27,26 @@ const Attendance = sequelize.define('attendance', {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  isDeleted: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
 }, {
   timestamps: true,
-  createdAt: 'created_at',
-  updatedAt: 'updated_at',
 });
 
 Attendance.associate = (models) => {
-  Attendance.belongsTo(models.user, {
-    foreignKey: 'user_id',
+  Attendance.belongsTo(models.User, {
+    foreignKey: 'user',
+  });
+
+  Attendance.belongsTo(models.AttendanceType, {
+    foreignKey: 'type',
+  });
+
+  Attendance.belongsTo(models.Timetable, {
+    foreignKey: 'schedule',
   });
 };
 

@@ -12,4 +12,5 @@ export const failedResponse = (message, statusCode = 401, responseException = ''
   version: null,
   statusCode,
   responseException,
+  result: null,
 });

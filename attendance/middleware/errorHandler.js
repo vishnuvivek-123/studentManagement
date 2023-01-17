@@ -3,6 +3,7 @@ import { failedResponse } from '../helper/response.js';
 import BadRequest from '../helper/exception/badRequest.js';
 import Unauthorized from '../helper/exception/unauthorized.js';
 import Forbidden from '../helper/exception/forbidden.js';
+import NotFound from '../helper/exception/notFound.js';
 
 export default (err, req, res, next) => {
   if (err instanceof Joi.ValidationError) {
@@ -21,12 +22,14 @@ export default (err, req, res, next) => {
     return res.status(403).json(failedResponse(err.message, err.statusCode, err.code));
   }
 
+  if (err instanceof NotFound) {
+    return res.status(404).json(failedResponse(err.message, err.statusCode, err.code));
+  }
+
   if (['TokenExpiredError', 'JsonWebTokenError', 'NotBeforeError'].includes(err.name)) {
     return res.status(401).json(failedResponse(err.message, 401, err.name));
   }
 
 
-
- 
   return res.status(500).json(failedResponse(err.message, 500));
 };

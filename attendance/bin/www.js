@@ -26,9 +26,6 @@ const errorHandler = (error) => {
     throw error;
   }
 
-  const address = server.address();
-  const bind = typeof address === 'string' ? `pipe ${address}` : `port: ${port}`;
-
   switch (error.code) {
     case 'EACCES':
       process.exit(1);
@@ -46,6 +43,9 @@ server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();
   const bind = typeof address === 'string' ? `pipe ${address}` : port;
+  console.log(`Server started successfully on port: ${bind}`);
+  console.log(`App: http://localhost:${bind}`);
+  console.log(`Swagger: http://localhost:${bind}/api-docs`);
 });
 
 server.listen(port);

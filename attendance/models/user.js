@@ -1,32 +1,42 @@
 import Sequelize, { DataTypes } from 'sequelize';
 import sequelize from '../config/sequelize-config.js';
 
-const User = sequelize.define('user', {
+const User = sequelize.define('User', {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
     defaultValue: Sequelize.UUIDV4,
   },
-  full_name: {
-    type: DataTypes.TEXT,
+  fName: {
+    type: DataTypes.STRING(50),
     allowNull: false,
   },
-  contact_number: {
-    type: DataTypes.TEXT,
+  lName: {
+    type: DataTypes.STRING(50),
+    allowNull: true,
+  },
+  emailId: {
+    type: DataTypes.STRING(120),
     allowNull: false,
   },
-  user_role: {
-    type: DataTypes.TEXT,
+  contactNum: {
+    type: DataTypes.STRING(20),
+    allowNull: false,
+  },
+  password: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+  },
+  userRole: {
+    type: DataTypes.STRING(25),
     allowNull: false,
   },
 }, {
   timestamps: true,
-  createdAt: 'created_at',
-  updatedAt: 'updated_at',
 });
 
 User.associate = (models) => {
-  User.hasMany(models.attendance, {
+  User.hasMany(models.Attendance, {
     foreignKey: 'user_id',
   });
 };
