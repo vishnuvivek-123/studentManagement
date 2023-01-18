@@ -21,7 +21,7 @@ const AttendanceType = sequelize.define('AttendanceType', {
 });
 
 AttendanceType.associate = (models) => {
-  AttendanceType.belongsTo(models.Attendance, {
+  AttendanceType.hasMany(models.Attendance, {
     foreignKey: 'type',
   });
 };
