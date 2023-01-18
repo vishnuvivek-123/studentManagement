@@ -37,7 +37,7 @@ const User = sequelize.define('User', {
 
 User.associate = (models) => {
   User.hasMany(models.Attendance, {
-    foreignKey: 'user_id',
+    foreignKey: 'user',
   });
 };
 
