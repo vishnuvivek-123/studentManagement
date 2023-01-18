@@ -14,8 +14,6 @@ app.use(cors());
 app.use(express.json({ limit: '300mb' }));
 app.use(express.urlencoded({ limit: '300mb', extended: true }));
 
-
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api', apiRouter);
 
@@ -24,7 +22,6 @@ app.use(errorHandler);
 app.get('/', (req, res) => {
   res.send('Welcome');
 });
-
 
 
 export default app;

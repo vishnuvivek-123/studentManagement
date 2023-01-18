@@ -168,6 +168,31 @@ router.delete('/:id', validator.validateId, controller.remove);
  *      500:
  *        description: Internal server error
  */
-router.get('/', controller.list);
 
+router.get('/', controller.list);
+/**
+ * @swagger
+ * /api/attendance:
+ *   get:
+ *     tags:
+ *       - Attendance
+ *     name: get list
+ *     summary: attendance list
+ *     parameters:
+ *       - name: id
+ *         in: query
+ *         required: false
+ *         description: user id
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *          200:
+ *            description: Attendance listed successfully
+ *          400:
+ *            description: Bad request
+ *          401:
+ *            description: Unauthorized
+ *          500:
+ *            description: Internal server error
+ */
 export default router;

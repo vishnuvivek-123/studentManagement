@@ -21,10 +21,14 @@ async function get(req, res) {
   return res.status(200).json(goodResponse(result, 'Attendance fetched successfully'));
 }
 
-async function list(req, res) {
-  const result = await service.list();
-  return res.status(200).json(goodResponse(result, 'Attendance fetched successfully'));
-}
+const list = async (req, res) => {
+  const cond = { where: {} };
+  if (req.query.id) {
+    cond.where.user_id = req.query.id;
+  }
+  const result = await service.list(cond);
+  return res.status(200).json(goodResponse({ result }, 'Attendance listed succesfully'));
+};
 
 export default {
   create,
@@ -33,3 +37,4 @@ export default {
   get,
   list,
 };
+
