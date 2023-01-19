@@ -25,17 +25,11 @@ const errorHandler = (error) => {
   if (error.syscall !== 'listen') {
     throw error;
   }
-
-  const address = server.address();
-  const bind = typeof address === 'string' ? `pipe ${address}` : `port: ${port}`;
-
   switch (error.code) {
     case 'EACCES':
       process.exit(1);
-      break;
     case 'EADDRINUSE':
       process.exit(1);
-      break;
     default:
       throw error;
   }
@@ -43,9 +37,6 @@ const errorHandler = (error) => {
 
 server.on('error', errorHandler);
 // make the server listen to requests
-server.on('listening', () => {
-  const address = server.address();
-  const bind = typeof address === 'string' ? `pipe ${address}` : port;
-});
+server.on('listening', () => {});
 
 server.listen(port);

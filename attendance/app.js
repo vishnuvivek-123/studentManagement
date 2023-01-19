@@ -19,9 +19,8 @@ app.use('/api', apiRouter);
 
 app.use(errorHandler);
 
-app.get('/', (req, res) => {
-  res.send('Welcome');
+app.get('/server-up', (req, res) => {
+  res.send('Server is up and running');
 });
-
 
 export default app;
