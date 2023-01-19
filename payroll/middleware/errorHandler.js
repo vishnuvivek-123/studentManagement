@@ -24,9 +24,7 @@ export default (err, req, res, next) => {
   if (['TokenExpiredError', 'JsonWebTokenError', 'NotBeforeError'].includes(err.name)) {
     return res.status(401).json(failedResponse(err.message, 401, err.name));
   }
+  console.error(err);
 
-
-
- 
   return res.status(500).json(failedResponse(err.message, 500));
 };

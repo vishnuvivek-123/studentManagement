@@ -37,6 +37,12 @@ const errorHandler = (error) => {
 
 server.on('error', errorHandler);
 // make the server listen to requests
-server.on('listening', () => {});
+server.on('listening', () => {
+  const address = server.address();
+  const bind = typeof address === 'string' ? `pipe ${address}` : port;
+  console.log(`Server started successfully on port: ${bind}`);
+  console.log(`App: http://localhost:${bind}`);
+  console.log(`Swagger: http://localhost:${bind}/api-docs`);
+});
 
 server.listen(port);

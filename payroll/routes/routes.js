@@ -1,8 +1,8 @@
 import express from 'express';
-// import payroll from '../api/payroll/index.js';
+import payroll from '../api/payroll/index.js';
 const router = express.Router();
 
-// router.use('/payroll',validator, payroll);
+ router.use('/payroll',payroll);
 
 
 
