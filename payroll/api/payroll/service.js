@@ -9,7 +9,7 @@ const create = async (data) => {
 
 async function update(id, data) {
   const payroll = await Payroll.findOne({ where: { user: id } });
-  if (!payroll) {
+  if (!payroll || payroll.isDeleted) {
     throw new BadRequest('not found');
   }
 
@@ -26,7 +26,7 @@ async function get(id) {
     ],
   });
 
-  if (!payroll) {
+  if (!payroll || payroll.isDeleted) {
     throw new BadRequest('not found');
   }
 
@@ -35,6 +35,7 @@ async function get(id) {
 
 async function list() {
   return Payroll.findAll({
+    where: { isDeleted: false },
     include: [
       {
         model: User,
@@ -44,7 +45,7 @@ async function list() {
 }
 
 async function processSalary() {
-  const payrolls = await Payroll.findAll();
+  const payrolls = await Payroll.findAll({ where: { isDeleted: false } });
   await Promise.all(payrolls.map(async (payroll) => {
     try {
       await payroll.sendSalary();

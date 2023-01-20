@@ -30,6 +30,11 @@ const Payroll = sequelize.define('Payroll', {
     type: DataTypes.STRING(50),
     allowNull: false,
   },
+  isDeleted: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
 }, {
   timestamps: true,
 });
@@ -44,9 +49,8 @@ Payroll.associate = (models) => {
   });
 };
 
-Payroll.prototype.sendSalary = async () => {
-  // eslint-disable-next-line no-invalid-this
-  const payroll = this ?? {};
+Payroll.prototype.sendSalary = async function sendSalary() {
+  const payroll = this;
 
   const salaryMonth = dayjs().subtract(1, 'month');
   const noOfDays = salaryMonth.daysInMonth();
