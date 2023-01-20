@@ -23,9 +23,8 @@ async function update(req, res, next) {
 }
 
 
-
 export default {
   create,
-  update
+  update,
 };
 
