@@ -16,10 +16,27 @@ const Leave = sequelize.define('Leave', {
     allowNull: false,
     defaultValue: false,
   },
+  isLossOfPay: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
   date: {
     type: DataTypes.DATE,
     allowNull: false,
     default: false,
+  },
+  leaveCount: {
+    type: DataTypes.VIRTUAL,
+    get() {
+      if (this.isLossOfPay) {
+        if (this.isHalfDay) {
+          return 0.5;
+        }
+        return 1;
+      }
+      return 0;
+    },
   },
   isDeleted: {
     type: DataTypes.BOOLEAN,
