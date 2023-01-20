@@ -30,6 +30,10 @@ async function getAllEvents() {
   return events.filter((event) => event.default && event.default.event && event.default.handler).map((event) => event.default);
 }
 
+async function errorHandler(err) {
+  console.error(err);
+}
+
 amqp.connect('amqp://localhost', (error0, connection) => {
   if (error0) {
     throw error0;
@@ -46,7 +50,11 @@ amqp.connect('amqp://localhost', (error0, connection) => {
         });
 
         channel.consume(event.event, (msg) => {
-          event.handler(JSON.parse(msg.content.toString()));
+          try {
+            event.handler(JSON.parse(msg.content.toString()));
+          } catch (e) {
+            errorHandler(e).then().catch();
+          }
         }, {
           noAck: true,
         });

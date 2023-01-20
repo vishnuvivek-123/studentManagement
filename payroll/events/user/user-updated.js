@@ -1,9 +1,10 @@
+import userService from '../../api/user/service.js';
 
-function userCreated(user) {
-  console.log('User updated', user);
+async function userUpdated(user) {
+  await userService.update(user);
 }
 
 export default {
   event: 'UserUpdated',
-  handler: userCreated,
+  handler: userUpdated,
 };
