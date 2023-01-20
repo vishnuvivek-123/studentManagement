@@ -2,6 +2,7 @@ import amqp from 'amqplib/callback_api.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import { logger } from '../config/winston-config.js';
 
 function getJsFilesRecursive(dir) {
   const files = fs.readdirSync(dir);
@@ -31,7 +32,7 @@ async function getAllEvents() {
 }
 
 async function errorHandler(err) {
-  console.error(err);
+  logger.error({ message: err.message, stack: err.stack });
 }
 
 amqp.connect('amqp://localhost', (error0, connection) => {

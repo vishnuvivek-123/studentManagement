@@ -2,6 +2,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
 import sequelize from '../config/sequelize-config.js';
+import { logger } from '../config/winston-config.js';
 
 const basename = path.basename(fileURLToPath(import.meta.url));
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -24,6 +25,6 @@ const files = fs
   });
 
   sequelize.sync({ force: false, alter: { drop: false } })
-    .then(() => console.log('db sync done!'))
-    .catch((e) => console.log({ message: `Something went wrong with db update! Error: ${e.message}`, stack: e.stack }));
+    .then(() => logger.info('db sync done!'))
+    .catch((e) => logger.error({ message: `Something went wrong with db update! Error: ${e.message}`, stack: e.stack }));
 })();

@@ -1,6 +1,7 @@
 import Payroll from '../../models/payroll.js';
 import BadRequest from '../../helper/exception/badRequest.js';
 import User from '../../models/user.js';
+import { logger } from '../../config/winston-config.js';
 
 const create = async (data) => {
   const payroll = new Payroll(data);
@@ -50,7 +51,7 @@ async function processSalary() {
     try {
       await payroll.sendSalary();
     } catch (e) {
-      console.log(e);
+      logger.error({ message: e.message, stack: e.stack });
     }
   }));
 }

@@ -9,6 +9,7 @@ import './models/index.js';
 import errorHandler from './middleware/errorHandler.js';
 import swaggerSpec from './config/swagger-config.js';
 import payrollService from './api/payroll/service.js';
+import './events/index.js';
 
 const app = express();
 

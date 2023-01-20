@@ -10,7 +10,7 @@ amqp.connect('amqp://localhost', (error0, connection) => {
       throw error1;
     }
 
-    const queue = 'UserCreated';
+    const queue = 'LeaveAdded';
     const msg = JSON.stringify({ name: 'user' });
 
     channel.assertQueue(queue, {

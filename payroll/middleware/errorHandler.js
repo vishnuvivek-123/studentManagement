@@ -3,6 +3,7 @@ import { failedResponse } from '../helper/response.js';
 import BadRequest from '../helper/exception/badRequest.js';
 import Unauthorized from '../helper/exception/unauthorized.js';
 import Forbidden from '../helper/exception/forbidden.js';
+import { logger } from '../config/winston-config.js';
 
 export default (err, req, res, next) => {
   if (err instanceof Joi.ValidationError) {
@@ -24,7 +25,8 @@ export default (err, req, res, next) => {
   if (['TokenExpiredError', 'JsonWebTokenError', 'NotBeforeError'].includes(err.name)) {
     return res.status(401).json(failedResponse(err.message, 401, err.name));
   }
-  console.error(err);
+
+  logger.error({ message: err.message, stack: err.stack });
 
   return res.status(500).json(failedResponse(err.message, 500));
 };

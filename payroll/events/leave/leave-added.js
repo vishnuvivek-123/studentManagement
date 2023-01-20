@@ -1,6 +1,7 @@
+import { logger } from '../../config/winston-config.js';
 
 async function leaveAdded(leave) {
-  console.log(leave);
+  logger.debug(leave);
 }
 
 export default {

@@ -1,5 +1,6 @@
 import http from 'http';
 import app from '../app.js';
+import { logger } from '../config/winston-config.js';
 
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
@@ -27,10 +28,15 @@ const errorHandler = (error) => {
   }
   switch (error.code) {
     case 'EACCES':
+      logger.error({ message: `${port} requires elevated privileges` });
       process.exit(1);
+      break;
     case 'EADDRINUSE':
+      logger.error({ message: `${port} is already in use` });
       process.exit(1);
+      break;
     default:
+      logger.error({ message: error.message, stack: error.stack });
       throw error;
   }
 };
@@ -40,9 +46,9 @@ server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();
   const bind = typeof address === 'string' ? `pipe ${address}` : port;
-  console.log(`Server started successfully on port: ${bind}`);
-  console.log(`App: http://localhost:${bind}`);
-  console.log(`Swagger: http://localhost:${bind}/api-docs`);
+  logger.info(`Server started successfully on port: ${bind}`);
+  logger.info(`App: http://localhost:${bind}`);
+  logger.info(`Swagger: http://localhost:${bind}/api-docs`);
 });
 
 server.listen(port);
