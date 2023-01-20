@@ -4,41 +4,37 @@ import User from '../../models/user.js';
 
 const create = async (data) => {
   const payroll = new Payroll(data);
-
   return payroll.save();
 };
+
 async function update(id, data) {
-  const payroll = await Payroll.findByPk(id);
-  if (!payroll || payroll.isDeleted) {
+  const payroll = await Payroll.findOne({ where: { user: id } });
+  if (!payroll) {
     throw new BadRequest('not found');
   }
 
   return payroll.update(data);
 }
-async function remove(id) {
-  const payroll = await Payroll.findByPk(id);
-  if (!payroll || payroll.isDeleted) {
+
+async function get(id) {
+  const payroll = await Payroll.findOne({
+    where: { user: id },
+    include: [
+      {
+        model: User,
+      },
+    ],
+  });
+
+  if (!payroll) {
     throw new BadRequest('not found');
   }
 
-  return payroll.update({ isDeleted: true });
-}
-async function get(id) {
-  const payroll = await Payroll.findByPk(id, {
-    include: [
-      {
-        model: User,
-      },
-    ],
-  });
-  if (!payroll || payroll.isDeleted) {
-    throw new BadRequest('not found');
-  }
   return payroll;
 }
-async function list(userId) {
+
+async function list() {
   return Payroll.findAll({
-    where: { isDeleted: false, user: userId },
     include: [
       {
         model: User,
@@ -46,10 +42,22 @@ async function list(userId) {
     ],
   });
 }
+
+async function processSalary() {
+  const payrolls = await Payroll.findAll();
+  await Promise.all(payrolls.map(async (payroll) => {
+    try {
+      await payroll.sendSalary();
+    } catch (e) {
+      console.log(e);
+    }
+  }));
+}
+
 export default {
   create,
   update,
-  remove,
   get,
   list,
+  processSalary,
 };

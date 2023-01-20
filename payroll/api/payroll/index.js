@@ -6,46 +6,6 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/payroll:
- *   post:
- *     security:
- *          - bearerAuth: []
- *     summary: Create payroll
- *     tags:
- *       - Payroll
- *     requestBody:
- *       content:
- *         application/json:
- *          schema:
- *            type: object
- *            properties:
- *              user:
- *               type: string
- *               required: true
- *               default: ''
- *              leaveType:
- *               type: string
- *               required: true
- *               default: ''
- *              totalNumOfLeave:
- *               type: number
- *               required: true
- *               default: ''
- *              numOfLeaveAvailable:
- *               type: number
- *               required: false
- *               default: ''
- *     responses:
- *       200:
- *         description: Payroll created successfully
- *       400:
- *         description: Bad request
- *       500:
- *         description: Internal server error
- */
-router.post('/', validator.create, controller.create);
-/**
- * @swagger
  * /api/payroll/{id}:
  *   patch:
  *     security:
@@ -63,14 +23,30 @@ router.post('/', validator.create, controller.create);
  *          schema:
  *            type: object
  *            properties:
- *              totalNumOfLeave:
- *               type: number
- *               required: false
- *               default: ''
- *              numOfLeaveAvailable:
- *               type: number
- *               required: false
- *               default: ''
+ *              amount:
+ *                schema:
+ *                  type: integer
+ *                example: 1000
+ *                description: Amount to be paid
+ *                required: true
+ *              accountNumber:
+ *                schema:
+ *                  type: string
+ *                example: 1234567890
+ *                description: Account number
+ *                required: true
+ *              IFSCNumber:
+ *                schema:
+ *                  type: string
+ *                example: SBIN0000000
+ *                description: IFSC number
+ *                required: true
+ *              upiId:
+ *                schema:
+ *                  type: string
+ *                example: 1234567890@upi
+ *                description: UPI ID
+ *                required: true
  *     responses:
  *       200:
  *         description: Payroll updated successfully
@@ -81,7 +57,8 @@ router.post('/', validator.create, controller.create);
  *       500:
  *         description: Payroll server error
  */
-router.patch('/:id', validator.update, controller.update);
+router.patch('/:id', validator.validateId, controller.update);
+
 /**
  * @swagger
  * /api/payroll/{id}:
@@ -108,34 +85,8 @@ router.patch('/:id', validator.update, controller.update);
  *      500:
  *        description: Internal server error
  */
-router.get('/:id', controller.get);
-/**
- * @swagger
- * /api/payroll/{id}:
- *  delete:
- *    security:
- *      - bearerAuth: []
- *    summary: Delete payroll
- *    tags:
- *      - Payroll
- *    parameters:
- *      - in: path
- *        name: id
- *        required: true
- *        schema:
- *          type: string
- *          format: uuid
- *    responses:
- *      200:
- *        description: Payroll deleted successfully
- *      400:
- *        description: Bad request
- *      404:
- *         description: Payroll not found
- *      500:
- *        description: Internal server error
- */
-router.delete('/:id', controller.remove);
+router.get('/:id', validator.validateId, controller.get);
+
 /**
  * @swagger
  * /api/payroll:
@@ -162,6 +113,5 @@ router.delete('/:id', controller.remove);
  *            description: Internal server error
  */
 router.get('/', controller.list);
-
 
 export default router;
