@@ -7,10 +7,6 @@ const Attendance = sequelize.define('Attendance', {
     type: DataTypes.UUID,
     defaultValue: Sequelize.UUIDV4,
   },
-  isPresent: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-  },
   user: {
     type: DataTypes.UUID,
     allowNull: false,

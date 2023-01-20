@@ -6,42 +6,46 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/attendance:
+ * /api/user:
  *   post:
  *     security:
  *          - bearerAuth: []
- *     summary: Create attendance
+ *     summary: Create user
  *     tags:
- *       - Attendance
+ *       - User
  *     requestBody:
  *       content:
  *         application/json:
  *          schema:
  *            type: object
  *            properties:
- *              isPresent:
- *               type: boolean
- *               required: true
- *               default: true
- *              user:
+ *              fName:
  *               type: string
  *               required: true
  *               default: ''
- *              type:
+ *              lName:
  *               type: string
  *               required: true
  *               default: ''
- *              schedule:
+ *              emailId:
  *               type: string
  *               required: true
  *               default: ''
- *              remark:
+ *              contactNum:
  *               type: string
- *               required: false
+ *               required: true
+ *               default: ''
+ *              password:
+ *               type: string
+ *               required: true
+ *               default: ''
+ *              userRole:
+ *               type: string
+ *               required: true
  *               default: ''
  *     responses:
  *       200:
- *         description: Attendance created successfully
+ *         description: User created successfully
  *       400:
  *         description: Bad request
  *       500:
@@ -51,13 +55,13 @@ router.post('/', validator.create, controller.create);
 
 /**
  * @swagger
- * /api/attendance/{id}:
+ * /api/user/{id}:
  *   patch:
  *     security:
  *       - bearerAuth: []
- *     summary: Update attendance
+ *     summary: Update user
  *     tags:
- *       - Attendance
+ *       - User
  *     parameters:
  *       - in: path
  *         name: id
@@ -68,28 +72,25 @@ router.post('/', validator.create, controller.create);
  *          schema:
  *            type: object
  *            properties:
- *              isPresent:
- *               type: boolean
- *               required: false
- *              type:
+ *              fName:
  *               type: string
  *               required: false
  *               default: ''
- *              schedule:
+ *              lName:
  *               type: string
  *               required: false
  *               default: ''
- *              remark:
+ *              contactNum:
  *               type: string
  *               required: false
  *               default: ''
  *     responses:
  *       200:
- *         description: Attendance updated successfully
+ *         description: User updated successfully
  *       400:
  *         description: Bad request
  *       404:
- *         description: Attendance not found
+ *         description: User not found
  *       500:
  *         description: Internal server error
  */
@@ -97,13 +98,13 @@ router.patch('/:id', validator.validateId, validator.update, controller.update);
 
 /**
  * @swagger
- * /api/attendance/{id}:
+ * /api/user/{id}:
  *  get:
  *    security:
  *      - bearerAuth: []
- *    summary: Get attendance
+ *    summary: Get user
  *    tags:
- *      - Attendance
+ *      - User
  *    parameters:
  *      - in: path
  *        name: id
@@ -113,11 +114,11 @@ router.patch('/:id', validator.validateId, validator.update, controller.update);
  *          format: uuid
  *    responses:
  *      200:
- *        description: Attendance retrieved successfully
+ *        description: User retrieved successfully
  *      400:
  *        description: Bad request
  *      404:
- *         description: Attendance not found
+ *         description: User not found
  *      500:
  *        description: Internal server error
  */
@@ -125,13 +126,13 @@ router.get('/:id', validator.validateId, controller.get);
 
 /**
  * @swagger
- * /api/attendance/{id}:
+ * /api/user/{id}:
  *  delete:
  *    security:
  *      - bearerAuth: []
- *    summary: Delete attendance
+ *    summary: Delete User
  *    tags:
- *      - Attendance
+ *      - User
  *    parameters:
  *      - in: path
  *        name: id
@@ -141,11 +142,11 @@ router.get('/:id', validator.validateId, controller.get);
  *          format: uuid
  *    responses:
  *      200:
- *        description: Attendance deleted successfully
+ *        description: User deleted successfully
  *      400:
  *        description: Bad request
  *      404:
- *         description: Attendance not found
+ *         description: User not found
  *      500:
  *        description: Internal server error
  */
@@ -153,16 +154,16 @@ router.delete('/:id', validator.validateId, controller.remove);
 
 /**
  * @swagger
- * /api/attendance:
+ * /api/user:
  *  get:
  *    security:
  *      - bearerAuth: []
- *    summary: Get all attendance
+ *    summary: Get all user
  *    tags:
- *      - Attendance
+ *      - User
  *    responses:
  *      200:
- *        description: Attendance retrieved successfully
+ *        description: User retrieved successfully
  *      400:
  *        description: Bad request
  *      500:
@@ -172,12 +173,12 @@ router.delete('/:id', validator.validateId, controller.remove);
 router.get('/', controller.list);
 /**
  * @swagger
- * /api/attendance:
+ * /api/user:
  *   get:
  *     tags:
- *       - Attendance
+ *       - User
  *     name: get list
- *     summary: attendance list
+ *     summary: user list
  *     parameters:
  *       - name: id
  *         in: query
@@ -187,7 +188,7 @@ router.get('/', controller.list);
  *       - bearerAuth: []
  *     responses:
  *          200:
- *            description: Attendance listed successfully
+ *            description: User listed successfully
  *          400:
  *            description: Bad request
  *          401:
